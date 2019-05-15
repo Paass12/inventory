@@ -6,7 +6,7 @@
           <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
         </el-menu-item>
       </app-link>
-    </template>
+    </template> 
 
     <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
       <template slot="title">
@@ -29,6 +29,7 @@ export default {
   components: { Item, AppLink },
   mixins: [FixiOSBug],
   props: {
+    // route object
     item: {
       type: Object,
       required: true

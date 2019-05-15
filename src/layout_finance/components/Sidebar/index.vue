@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      系统管理员
+      财务管理员
     </div>
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu

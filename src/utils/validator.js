@@ -4,34 +4,42 @@ const REG_MOBLIE = /^1(3|5|7|8|9)[0-9]{9}$/
 const REG_EMAIL = /^\w+([+-.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
 
 const strategies = {
+  // 判断same
   isSame(value, compareValue, errorMsg) {
     return value !== compareValue
       ? errorMsg : void 0;
   },
+  // boolean
   isTrue(value, errorMsg) {
     return !value
       ? errorMsg : void 0;
   },
+  // empty
   isNonEmpty(value, errorMsg) {
     return value === ''
       ? errorMsg : void 0;
   },
+  // minl
   minLength(value, length, errorMsg) {
     return value.length < length
       ? errorMsg : void 0;
   },
+  // maxl
   maxLength(value, length, errorMsg) {
     return value.length > length
       ? errorMsg : void 0;
   },
+  // phnoe  Num
   isMoblie(value, errorMsg) {
     return !REG_MOBLIE.test(value)
       ? errorMsg : void 0;
   },
+  // email check
   isEmail(value, errorMsg) {
     return !REG_EMAIL.test(value)
       ? errorMsg : void 0;
   },
+  // email or phone check
   isMoblieOrIsEmail(value,errorMsg) {
     return !REG_MOBLIE.test(value) && !REG_EMAIL.test(value)
       ? errorMsg : void 0;

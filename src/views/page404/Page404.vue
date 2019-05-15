@@ -1,6 +1,6 @@
 <template>
   <div class="404">
-    404
+    404错误！
   </div>
 </template>
 
@@ -9,4 +9,5 @@
 export default {
 
 }
+
 </script>

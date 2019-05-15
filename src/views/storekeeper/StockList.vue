@@ -5,33 +5,29 @@
       <!-- main -->
       <el-container>
         <el-main id="main" style="height:500px;padding:0">
-          <h3>库存小于最低储备列表或即将大于最高储备</h3>
+          <h3>产品库存列表</h3>
           <el-row>
             <el-col :span="20" :push="2">
+              <div>
+                <el-form :inline="true">
+                  <el-form-item style="float: left" label="查询信息:">
+                    <el-input v-model="keyProduct" placeholder="请输入产品代码......"></el-input>
+                  </el-form-item>
+                </el-form>
+              </div>
               <div class="table">
-                <el-table :data="searchProductInfo()" border style="width: 100%">
+                <el-table :data="searchProductInfo(keyProduct)" border style="width: 100%">
                   <el-table-column type="index" label="序号" align="center" width="60"></el-table-column>
-                  <el-table-column label="产品代码" align="center" width="220">
+                  <el-table-column label="产品代码" align="center" width="180">
                     <template slot-scope="scope">
                       <span>{{ scope.row.productId}}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column label="库存量" align="center" width="220">
+                  <el-table-column label="库存量" align="center" width="180">
                     <template slot-scope="scope">
-                      <span style="color:red">{{ scope.row.stock }}</span>
+                      <span>{{ scope.row.stock }}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column label="最低储备" align="center" width="220">
-                    <template>
-                      <span>{{ minCount }}</span>
-                    </template>
-                  </el-table-column>
-                  <el-table-column label="最高储备" align="center" width="">
-                    <template>
-                      <span>{{ maxCount }}</span>
-                    </template>
-                  </el-table-column>
-
 
                 </el-table>
               </div>
@@ -77,8 +73,6 @@ export default {
       dialogVisible: false,
       show: false,
       tableData: null,
-      minCount: '',
-      maxCount: '',
       dialogEdit: {
         show: false
       },
@@ -89,6 +83,7 @@ export default {
       dialogOutShow: {
         show: false
       },
+      keyProduct: '',
       form: {
         // 编辑和查看信息
         orderId: '',
@@ -102,22 +97,35 @@ export default {
     getStockList () {
       api.getStockList().then(res => {
         this.tableData = res.stocks
-        // this.productInformation = res.stocks.product        
-        // console.log(this.productInformation)
+        this.productInformation = res.stocks.product        
+        console.log(this.productInformation)
       })
     },
-    
-   
+    // getOutboundListDetail () {
+    //   api.getOutboundList().then(res => {
+    //     // 传详情进去
+    //     // this.productList = res.outbounds.order.products
+    //     // console.log(this.productList)
+    //   })
+    // },
 
-    searchProductInfo () {
+    // hanldeShow (index, row) {
+    //   // 查看
+    //   this.dialogOutShow.show = true
+    //   this.form = {
+    //     orderId: row.orderId,
+    //     outboundTime: row.outboundTime,
+    //     warehouse: row.warehouse,
+    //     principal: row.principal
+    //   }
+    // },
+
+    // handleDelete (index, row) {
+    // },
+
+    searchProductInfo (keyProduct) {
       return this.tableData.filter(item => {
-        if ( (parseInt(item.stock) < parseInt(item.product.minCount)) || (parseInt(item.product.maxCount)-parseInt(item.stock) < 20) ) {
-          this.minCount = ''
-          this.maxCount = ''
-          console.log(item.stock)
-          console.log(item.product.minCount)
-          this.minCount = item.product.minCount
-          this.maxCount = item.product.maxCount
+        if (String(item.productId).includes(keyProduct)) {
           return item
         }
       })
@@ -125,9 +133,13 @@ export default {
   },
   created () {
     this.getStockList()
-    
+    // this.getOutboundList()
+    // this.getOutboundListDetail()
+    // this.getAllProducts()
   }
-
+//   components: {  
+//     // ShowOutProduct
+//   }
 }
 </script>
 <style scoped>

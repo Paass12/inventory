@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      系统管理员
+     仓库管理员
     </div>
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
@@ -10,7 +10,7 @@
         :collapse-transition="false"
         mode="vertical"
       >
-      <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
+        <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>
   </div>
@@ -19,8 +19,7 @@
 <script>
 import Logo from './Logo'
 import SidebarItem from './SidebarItem'
-import variables from '@/styles/variables.scss'
-
+// import variables from '@/styles/variables.scss'
 export default {
   components: { SidebarItem, Logo },
   computed: {

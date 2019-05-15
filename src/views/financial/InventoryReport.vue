@@ -2,17 +2,8 @@
   <div class="container_table">
     <el-container>
       <el-container>
-        
-        <el-main id="main" style="height:500px;padding:0" align="center">
+        <el-main id="main" style="height:900px;padding:0" align="center">
           <h3>库存报表</h3>
-          <div id="btnuser">
-          <el-input
-            placeholder="请输入产品id"
-            v-model="keyUser"
-            class="searchinput">
-            <i slot="prefix" class="el-input__icon el-icon-search" ></i>
-            </el-input>
-          </div>
           <div class="table">
             <el-table
             :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
@@ -49,6 +40,11 @@
                 {{ scope.row.stock }}
               </template>
             </el-table-column>
+            <!-- <el-table-column align="center" label="出库数量">
+              <template slot-scope="scope">
+                {{ scope.row.outboundNum }}
+              </template>
+            </el-table-column> -->
             
             </el-table>
             <el-pagination class="fy"
@@ -70,6 +66,7 @@
 
 <script>
 import api from '@/api/api'
+
 export default {
     data() {
         return {
@@ -97,20 +94,22 @@ export default {
         this.listLoading = true
         api.getStockList().then( res => {
           this.tableData = res.stocks;
+          // this.tableLength = res.outbounds.length;
+          // console.log(this.tableLength)
           this.listLoading = false;
         })
       },
-      handleClose(done){
-        this.$confirm('确定关闭吗').then(() => {
-          // function(done)，done 用于关闭 Dialog
-          done();
+      // handleClose(done){
+      //   this.$confirm('确定关闭吗').then(() => {
+      //     // function(done)，done 用于关闭 Dialog
+      //     done();
  
-          console.info("点击右上角 'X' ，取消按钮或遮罩层时触发");
-        }).catch(() => {
+      //     console.info("点击右上角 'X' ，取消按钮或遮罩层时触发");
+      //   }).catch(() => {
  
-          console.log("点击确定时触发");
-        });
-      }
+      //     console.log("点击确定时触发");
+      //   });
+      // }
     }
 }
 </script>
@@ -119,10 +118,5 @@ export default {
 .container_table{
   box-sizing: border-box;
   padding: 30px;
-}
-.searchinput{
-  width: 300px;
-  float: left;
-  /* border:1px solid red; */
 }
 </style>

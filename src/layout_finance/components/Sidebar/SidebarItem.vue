@@ -29,6 +29,7 @@ export default {
   components: { Item, AppLink },
   mixins: [FixiOSBug],
   props: {
+    // route object
     item: {
       type: Object,
       required: true

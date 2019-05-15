@@ -136,6 +136,14 @@ export default {
             this.$router.push({
               name: 'systemAdmin'
             })
+          } else if(res.userType === 3){
+            this.$router.push({
+              name: 'storekeeper'
+            })
+          } else if (res.userType === 2) {
+            this.$router.push({
+              name: 'financial'
+            })
           } else {
             this.$router.push({
               name: '404'
