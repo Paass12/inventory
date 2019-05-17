@@ -1,3 +1,4 @@
+// 入库表
 <template>
   <div class="container_table">
     <el-container>
@@ -15,7 +16,6 @@
               fit
               :default-sort = "{prop: 'data',order:'descending'}"
             >
-              
               <el-table-column align="center" label="序号" width="95">
                 <template slot-scope="scope">
                   {{ scope.row.id }}
@@ -95,7 +95,7 @@ export default {
       },
       fetchData() {
         this.listLoading = true
-        api.getInBoundList().then(res => {
+        api.getInboundList ().then(res => {
           this.tableData = res.inboundLists;
           this.listLoading = false;
           // console.log(res)

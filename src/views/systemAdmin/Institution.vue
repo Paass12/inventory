@@ -1,18 +1,10 @@
+// 库存管理
 <template>
   <div class="container_table">
     <el-container>
       <el-container>
-        
-        <el-main id="main" style="height:500px;padding:0" align="center">
+        <el-main id="main" style="height:900px;padding:0" align="center">
           <h3>库存报表</h3>
-          <div id="btnuser">
-          <el-input
-            placeholder="请输入产品id"
-            v-model="keyUser"
-            class="searchinput">
-            <i slot="prefix" class="el-input__icon el-icon-search" ></i>
-            </el-input>
-          </div>
           <div class="table">
             <el-table
             :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
@@ -70,15 +62,15 @@
 
 <script>
 import api from '@/api/api'
+
 export default {
     data() {
         return {
-          dialogVisible: false,
           tableLength:null,
           tableData:null,
           listLoading:true,
-            pagesize:5,
-            currentPage:1,
+          pagesize:5,
+          currentPage:1,
         }
     },
     created() {
@@ -100,17 +92,6 @@ export default {
           this.listLoading = false;
         })
       },
-      handleClose(done){
-        this.$confirm('确定关闭吗').then(() => {
-          // function(done)，done 用于关闭 Dialog
-          done();
- 
-          console.info("点击右上角 'X' ，取消按钮或遮罩层时触发");
-        }).catch(() => {
- 
-          console.log("点击确定时触发");
-        });
-      }
     }
 }
 </script>
@@ -119,10 +100,5 @@ export default {
 .container_table{
   box-sizing: border-box;
   padding: 30px;
-}
-.searchinput{
-  width: 300px;
-  float: left;
-  /* border:1px solid red; */
 }
 </style>

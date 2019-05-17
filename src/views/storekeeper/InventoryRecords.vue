@@ -171,12 +171,7 @@ export default {
     },
     getAllProducts () {
       api.getAllProducts().then(res => {
-        // for(var i in res.products){
-        //   this.typeList.push(res.products[i].productScale)
-        //   // console.log(i)
-        // }
         this.typeList = res.products
-        // console.log(this.typeList)
       })
     },
     hanldeAdd () {
@@ -214,39 +209,12 @@ export default {
         id: row.id
       }
     },
-
-    // handleDelete (id) {
-    //   this.dialogVisible = false
-    //   console.log(id)
-    //   // 删除用户信息
-    //   // this.$axios.delete(`http://101.132.32.72:8080/bulb-0.0.1-SNAPSHOT/deleteInbound${id}`).then(res => {
-    //   //   this.$message({
-    //   //     type: "success",
-    //   //     message: "删除信息成功"
-    //   //   });
-    //   //   this.getProductInfo(); //删除数据，更新视图
-    //   // })
-    //   api.deleteInbound ({
-    //     inboundId: id
-    //   }
-    //   )
-    //   .then(res => {
-    //     console.log(res)
-    //     this.$message({
-    //       type: "success",
-    //       message: "删除信息成功"
-    //     });
-    //     this.getProductInfo(); //删除数据，更新视图
-    //   })
-    // },
-
     handleDelete (id) {
       // this.dialogVisible = false
       console.log(id)
       api.deleteInbound ({
         inboundId: parseInt(id)
-      }) 
-        .then(res => {
+      }).then(res => {
           console.log(res)
           this.getProductInfo(); //删除数据，更新视图
         })

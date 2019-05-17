@@ -2,8 +2,8 @@
   <div class="container_table">
     <el-container>
       <el-container>
-        <el-main id="main" style="height:500px;padding:0" align="center">
-          <h3>出库单</h3>
+        <el-main id="main" style="height:900px;padding:0" align="center">
+          <h3>销售额</h3>
           <div class="table">
             <el-table
             :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
@@ -15,52 +15,49 @@
             fit
             :default-sort = "{prop: 'data',order:'descending'}"
           >
-            <el-table-column align="center" label="序列号" width="95">
+            <el-table-column align="center" label="ID" width="95">
               <template slot-scope="scope">
-                {{ scope.$index }}
+                {{ scope.row.id }}
               </template>
             </el-table-column>
-            <el-table-column align="center" label="订单ID">
+            <el-table-column align="center" label="warehouse">
               <template slot-scope="scope">
-                {{ scope.row.productId }}
+                {{ scope.row.warehouse }}
               </template>
             </el-table-column>
             <el-table-column align="center" label="产品类型">
-              <template slot-scope="scope">
+              <template slot-scope="scope" >
                 {{ scope.row['product'].name }}
               </template>
             </el-table-column>
-            <el-table-column align="center" label="出库日期">
+ 
+            <el-table-column align="center" label="销售日期">
               <template slot-scope="scope">
                 {{ scope.row.outboundTime }}
               </template>
             </el-table-column>
-            <el-table-column align="center" label="出库员">
+         
+            <el-table-column label="查看详情">
               <template slot-scope="scope">
-                {{ scope.row.principal }}
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="出库数量">
-              <template slot-scope="scope">
-                {{ scope.row.outboundNum }}
-              </template>
-            </el-table-column>
-            <el-table-column 
-              label="查看详情">
-              <template slot-scope="scope">
-                <el-button @click="dialogVisible = true" size="small" type="primary">查看</el-button>
-                <el-dialog title="订单详情" :visible.sync="dialogVisible" :before-close="handleClose">
+                <el-button @click="dialogVisible = true" type="primary" size="small">查看</el-button>
+                <el-dialog title="销售详情" :visible.sync="dialogVisible" :before-close="handleClose">
                   <el-form :model="form" >
-                    <el-form-item label="产品ID">
-                      <span> {{ scope.row['product'].name }}</span>
+                    <el-form-item label="规格" >
+                      <span> {{ scope.row['product'].scale}} </span>
                     </el-form-item>
-                    <el-form-item label="出库数量">
-                      <span> {{ scope.row.outboundNum }} </span>
+                    <el-form-item label="成本">
+                      <span> {{ scope.row['product'].cost}} </span>
                     </el-form-item>
-                    <el-form-item label="产品规格">
-                      <span> {{ scope.row['product'].scale }} </span>
+                    <el-form-item label="售价">
+                      <span> {{ scope.row['product'].resale}} </span>
                     </el-form-item>
-                    <hr style="border:1 dashed #987cb9" width="80%" color=#987cb9 SIZE=1> 
+                    <el-form-item label="数量">
+                      <span> {{ scope.row.outboundNum}} </span>
+                    </el-form-item>
+                    <el-form-item label="利润">
+                      <span> {{ (scope.row['product'].resale - scope.row['product'].cost) * scope.row.outboundNum + '元'}} </span>
+                    </el-form-item>
+                    <hr style="border:1 dashed #987cb9" width="80%" color=#987cb9 SIZE=1>
                   </el-form>
                   <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false">取 消</el-button>
@@ -87,31 +84,30 @@
   </div>
 </template>
 
+
 <script>
 import api from '@/api/api'
-
 export default {
     data() {
         return {
-          dialogVisible: false,
-          tableLength:null,
           tableData:null,
           listLoading:true,
-            pagesize:5,
-            currentPage:1,
+          dialogVisible: false,
+          pagesize:5,
+          currentPage:1,
         }
     },
     created() {
       this.fetchData()
     },
     methods: {
-        handleSizeChange:function (size){
+      handleSizeChange:function (size){
         this.pagesize = size;
-        // console.log(this.pagesize)
+        console.log(this.pagesize)
       },
       handleCurrentChange:function (currentPage){
         this.currentPage = currentPage;
-        // console.log(this.currentPage)
+        console.log(this.currentPage)
       },
       fetchData() {
         this.listLoading = true
@@ -122,17 +118,24 @@ export default {
           this.listLoading = false;
         })
       },
-      handleClose(done){
-        this.$confirm('确定关闭吗').then(() => {
-          // function(done)，done 用于关闭 Dialog
-          done();
- 
-          console.info("点击右上角 'X' ，取消按钮或遮罩层时触发");
-        }).catch(() => {
- 
-          console.log("点击确定时触发");
-        });
-      }
+      // searchProductInfo(keyProduct){
+      //   return this.tableData.filter(item => {
+      //     if (item.productName.includes(keyProduct)){
+      //       return item
+      //     }
+      //   })
+      // }
+        handleClose(done){
+          this.$confirm('确定关闭吗').then(() => {
+            // function(done)，done 用于关闭 Dialog
+            done();
+  
+            console.info("点击右上角 'X' ，取消按钮或遮罩层时触发");
+          }).catch(() => {
+  
+            console.log("点击确定时触发");
+          });
+        }
     }
 }
 </script>

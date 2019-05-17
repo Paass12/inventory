@@ -13,18 +13,18 @@
   <!-------------------------------- addAdmin----------------------- -->
   <!-- Form -->
       <el-dialog title="增加管理员" :visible.sync="dialogFormVisible" style="width:1000px;margin-left:250px">
-        <el-form :model="form">
+        <el-form :model="form" :rules="formrules">
           <el-form-item label="工号" :label-width="formLabelWidth">
             <el-input v-model="form.username" autocomplete="off" maxlength="9" style="width:300px;float:left"></el-input>
           </el-form-item>
           <el-form-item label="密码" :label-width="formLabelWidth">
-            <el-input v-model="form.password" autocomplete="off" style="width:300px;float:left"></el-input>
+            <el-input v-model="form.password" autocomplete="off" type="password" style="width:300px;float:left"></el-input>
           </el-form-item>
           <el-form-item label="用户名" :label-width="formLabelWidth">
             <el-input v-model="form.name" autocomplete="off" style="width:300px;float:left"></el-input>
           </el-form-item>
           <el-form-item label="联系方式" :label-width="formLabelWidth">
-            <el-input v-model="form.phoneNumber" autocomplete="off" style="width:300px;float:left"></el-input>
+            <el-input v-model="form.phoneNumber" type="text" autocomplete="off" style="width:300px;float:left"></el-input>
           </el-form-item>
           <el-form-item label="身份类型" :label-width="formLabelWidth">
             <el-select v-model="form.adminType" placeholder="请选择身份类型" style="width:300px;float:left" >
@@ -128,11 +128,20 @@ export default {
           phoneNumber: '',
           adminType: '',
         },
+        formrules: {
+        username: [
+          { required: true, message: '工号不能为空', trigger: 'change', maxlen:9 }
+        ],
+        password: [{ required: true, message: '密码不能为空', trigger: 'blur' }],
+        name: [{ required: true, message: '姓名不能为空', trigger: 'blur' }],
+        phoneNumber: [{required: true,message: '电话号码不能为空', trigger: 'blur'}],
+        adminType: [{required: true,message: '请选择身份类型', trigger: 'blur'}]
+      },
       formLabelWidth: '80px',
     }
   },
   mounted(){
-　　this.init() //页面内初始加载就调用这个函数
+　　//this.init() //页面内初始加载就调用这个函数
   },
   created () {
     this.fetchData()
@@ -163,12 +172,13 @@ export default {
         name: this.form.name,
         phoneNumber: this.form.phoneNumber,
         adminType: this.form.adminType
-      }) 
-        .then(res => {
+      }).then(res => {
           fetchData()
           console.log(res)
           this.dialogFormVisible = false
         })
+        // fetchData()
+       this.dialogFormVisible = false
     },
     handleClickDelete (index, row) {
       this.deleteRow = { index, row }
@@ -178,11 +188,6 @@ export default {
       api.deleteAdmins({ username: this.deleteRow.row.username }).then(res => {
         this.showlog = false
         if (res.resultCode === 0 && res.info === '删除成功') {
-          // here here here here here
-          // here here here here here
-          // here here here here here
-          // here you can do something else after delete a admin
-          // such as alert or console
           this.userList.splice(this.deleteRow.index, 1)
         }
       })

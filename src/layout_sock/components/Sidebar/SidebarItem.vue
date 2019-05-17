@@ -8,7 +8,8 @@
       </app-link>
     </template> 
 
-    <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
+      <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body >
+        <span></span>
       <template slot="title">
         <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
       </template>
@@ -47,8 +48,14 @@ export default {
     // To fix https://github.com/PanJiaChen/vue-admin-template/issues/237
     // TODO: refactor with render function
     this.onlyOneChild = null
-    return {}
+    return {
+        isStorekeeper:''
+    }
   },
+  created(){
+
+
+  } ,
   methods: {
     hasOneShowingChild (children = [], parent) {
       const showingChildren = children.filter(item => {

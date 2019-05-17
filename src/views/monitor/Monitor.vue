@@ -106,9 +106,6 @@ export default {
         // console.log(this.productInformation)
       })
     },
-    
-   
-
     searchProductInfo () {
       return this.tableData.filter(item => {
         if ( (parseInt(item.stock) < parseInt(item.product.minCount)) || (parseInt(item.product.maxCount)-parseInt(item.stock) < 20) ) {
@@ -125,7 +122,6 @@ export default {
   },
   created () {
     this.getStockList()
-    
   }
 
 }

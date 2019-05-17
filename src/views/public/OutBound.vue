@@ -1,9 +1,10 @@
+// 出库表
 <template>
   <div class="container_table">
     <el-container>
       <el-container>
-        <el-main id="main" style="height:900px;padding:0" align="center">
-          <h3>库存报表</h3>
+        <el-main id="main" style="height:500px;padding:0" align="center">
+          <h3>出库单</h3>
           <div class="table">
             <el-table
             :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
@@ -15,14 +16,14 @@
             fit
             :default-sort = "{prop: 'data',order:'descending'}"
           >
-            <el-table-column align="center" label="产品序列" width="95">
+            <el-table-column align="center" label="序列号" width="95">
               <template slot-scope="scope">
-                {{ scope.row.id }}
+                {{ scope.$index }}
               </template>
             </el-table-column>
-            <el-table-column align="center" label="产品号">
+            <el-table-column align="center" label="订单ID">
               <template slot-scope="scope">
-                {{ scope.row['product'].id }}
+                {{ scope.row.productId }}
               </template>
             </el-table-column>
             <el-table-column align="center" label="产品类型">
@@ -30,22 +31,45 @@
                 {{ scope.row['product'].name }}
               </template>
             </el-table-column>
-            <el-table-column align="center" label="产品规格">
+            <el-table-column align="center" label="出库日期">
               <template slot-scope="scope">
-                {{ scope.row['product'].scale }}
+                {{ scope.row.outboundTime }}
               </template>
             </el-table-column>
-            <el-table-column align="center" label="库存量">
+            <el-table-column align="center" label="出库员">
               <template slot-scope="scope">
-                {{ scope.row.stock }}
+                {{ scope.row.principal }}
               </template>
             </el-table-column>
-            <!-- <el-table-column align="center" label="出库数量">
+            <el-table-column align="center" label="出库数量">
               <template slot-scope="scope">
                 {{ scope.row.outboundNum }}
               </template>
-            </el-table-column> -->
-            
+            </el-table-column>
+            <el-table-column 
+              label="查看详情">
+              <template slot-scope="scope">
+                <el-button @click="dialogVisible = true" size="small" type="primary">查看</el-button>
+                <el-dialog title="订单详情" :visible.sync="dialogVisible" :before-close="handleClose">
+                  <el-form :model="form" >
+                    <el-form-item label="产品ID">
+                      <span> {{ scope.row['product'].name }}</span>
+                    </el-form-item>
+                    <el-form-item label="出库数量">
+                      <span> {{ scope.row.outboundNum }} </span>
+                    </el-form-item>
+                    <el-form-item label="产品规格">
+                      <span> {{ scope.row['product'].scale }} </span>
+                    </el-form-item>
+                    <hr style="border:1 dashed #987cb9" width="80%" color=#987cb9 SIZE=1> 
+                  </el-form>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                  </span>
+                </el-dialog>
+              </template>
+            </el-table-column>
             </el-table>
             <el-pagination class="fy"
               layout="total,sizes,prev,pager,next,jumper"
@@ -92,24 +116,24 @@ export default {
       },
       fetchData() {
         this.listLoading = true
-        api.getStockList().then( res => {
-          this.tableData = res.stocks;
+        api.getOutboundList().then( res => {
+          this.tableData = res.outbounds;
           // this.tableLength = res.outbounds.length;
           // console.log(this.tableLength)
           this.listLoading = false;
         })
       },
-      // handleClose(done){
-      //   this.$confirm('确定关闭吗').then(() => {
-      //     // function(done)，done 用于关闭 Dialog
-      //     done();
+      handleClose(done){
+        this.$confirm('确定关闭吗').then(() => {
+          // function(done)，done 用于关闭 Dialog
+          done();
  
-      //     console.info("点击右上角 'X' ，取消按钮或遮罩层时触发");
-      //   }).catch(() => {
+          console.info("点击右上角 'X' ，取消按钮或遮罩层时触发");
+        }).catch(() => {
  
-      //     console.log("点击确定时触发");
-      //   });
-      // }
+          console.log("点击确定时触发");
+        });
+      }
     }
 }
 </script>

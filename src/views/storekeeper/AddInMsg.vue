@@ -19,16 +19,6 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <!-- <el-form-item label="产品规格" prop="productScale">
-          <el-select v-model="form.productScale" placeholder="请选择产品规格" style="width:100%">
-            <el-option
-              v-for="item in typeList"
-              :key="item.scale"
-              :label="item.scale"
-              :value="item.scale"
-            ></el-option>
-          </el-select>
-        </el-form-item> -->
         <el-form-item label="入库数量" prop="count">
           <el-input v-model="form.count"></el-input>
         </el-form-item>
@@ -38,12 +28,10 @@
         <el-form-item label="填制人" prop="principal">
           <el-input v-model="form.principal"></el-input>
         </el-form-item>
-        <!-- <el-form-item label="备注" prop="state">s
-        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogAdd.show = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormAdd()">确 定</el-button>
+        <el-button type="primary" @click="dialogFormAdd('formdong')">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -85,19 +73,27 @@ export default {
     
   },
   methods: {
-    dialogFormAdd () {
-      api.addInbound({
-        productId: this.form.productId,
-        inboundTime: this.form.inboundTime,
-        count: this.form.count,
-        workshop: this.form.workshop,
-        principal: this.form.principal
-      }) 
-        .then(res => {
-          console.log(res)
-          this.dialogAdd.show = false
+    dialogFormAdd(formdong) {
+        this.$refs[formdong].validate((valid) => {
+          if (valid) {
+              api.addInbound({
+                productId: this.form.productId,
+                inboundTime: this.form.inboundTime,
+                count: this.form.count,
+                workshop: this.form.workshop,
+                principal: this.form.principal
+                }) 
+              .then(res => {
+                console.log(res)
+                this.dialogAdd.show = false
+                this.form  = ""
+              })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
         })
-    },
+    }
 
 
   }

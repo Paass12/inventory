@@ -1,3 +1,4 @@
+// 订单表
 <template>
   <div class="container_table">
     <el-container>
@@ -33,6 +34,7 @@
                     <el-form-item label="数量">
                       <span>{{ props.row.outboundNum}}</span>
                     </el-form-item>
+              
                   </el-form>
                 </template>
             </el-table-column>
@@ -47,7 +49,7 @@
               </template>
             </el-table-column>
 
-        
+       
             </el-table>
             <el-pagination class="fy"
                 layout="total,sizes,prev,pager,next,jumper"
@@ -72,6 +74,7 @@ import api from '@/api/api'
 export default {
     data() {
         return {
+          // tableList:null,
           tableData:null,
           listLodaing:true,
           pagesize:5,

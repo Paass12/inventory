@@ -10,7 +10,7 @@
         :collapse-transition="false"
         mode="vertical"
       >
-        <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
+        <sidebar-item v-for="route in routesData" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>
   </div>
@@ -21,11 +21,17 @@ import Logo from './Logo'
 import SidebarItem from './SidebarItem'
 // import variables from '@/styles/variables.scss'
 export default {
+  data(){
+      return{
+          routesData:[]
+      }
+  },
   components: { SidebarItem, Logo },
   computed: {
     routes () {
       return this.$router.options.routes
     },
+
     activeMenu () {
       const route = this.$route
       const { meta, path } = route
@@ -41,6 +47,22 @@ export default {
     variables () {
       return variables
     }
+  },
+  created(){
+      var path=this.$route.path
+
+      if( path.indexOf('storekeeper') != -1){
+          this.$router.options.routes.forEach((item,index)=>{
+              if(item.path.indexOf('systemAdmin')!=-1 || item.path.indexOf('sold')!=-1 ||item.path.indexOf('depository')!=-1 ||item.path.indexOf('Monitor')!=-1||item.path.indexOf('financial')!=-1){
+                  console.log(index)
+              }else{
+                  this.routesData.push(item)
+              }
+          })
+
+      }else {
+      }
+
   }
 }
 </script>

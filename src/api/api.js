@@ -23,7 +23,11 @@ export default {
     return request.delete('/bulb-0.0.1-SNAPSHOT/admin/delete?' + qs.stringify(data))
   },
   // 产品信息
-  getAllProduct () {
+  // getAllProduct () {
+  //   return request.get('/bulb-0.0.1-SNAPSHOT/getAllProducts')
+  // },
+  // 获取产品信息
+  getAllProducts () {
     return request.get('/bulb-0.0.1-SNAPSHOT/getAllProducts')
   },
   // 库存列表
@@ -34,12 +38,12 @@ export default {
   getLogList () {
     return request.get('/bulb-0.0.1-SNAPSHOT/log/operationLogs')
   },
-  // 登陆日志
+  // 登陆日志列表
   getLoginLog () {
     return request.get('/bulb-0.0.1-SNAPSHOT/log/loginLogs')
   },
   // 入库列表
-  getInBoundList () {
+  getInboundList () {
     return request.get('/bulb-0.0.1-SNAPSHOT/getInboundList')
   },
   // 订单表
@@ -49,5 +53,37 @@ export default {
   // 出库列表
   getOutboundList () {
     return request.get('/bulb-0.0.1-SNAPSHOT/getOutboundList')
+  },
+  // 删除入库单
+  deleteInbound (data) {
+    return request.delete('/bulb-0.0.1-SNAPSHOT/deleteInbound?' + qs.stringify(data))
+  },
+  // 删除出库单
+  deleteOutbound (data) {
+    return request.delete('/bulb-0.0.1-SNAPSHOT/deleteOutbound?' + qs.stringify(data))
+  },
+  // 添加入库单
+  addInbound (data) {
+    return request.post('/bulb-0.0.1-SNAPSHOT/addInbound', qs.stringify(data))
+  },
+  // 添加出库单
+  addOutbound (data) {
+    return request.post('/bulb-0.0.1-SNAPSHOT/addOutbound', qs.stringify(data))
+  },
+  // 获取订单表
+  getStock (data) {
+    return request.get('/bulb-0.0.1-SNAPSHOT/getStock?' + qs.stringify(data))
+  },
+  // 获取产品信息
+  getProductInfo (data) {
+    return request.get('/bulb-0.0.1-SNAPSHOT/getProductInfo?' + qs.stringify(data))
+  },
+  // 盘存表
+  inventory (data) {
+    return request.post('/bulb-0.0.1-SNAPSHOT/inventory?' + qs.stringify(data))
+  },
+  // 盘存信息
+  getInventorys () {
+    return request.post('/bulb-0.0.1-SNAPSHOT/getInventorys')
   }
 }

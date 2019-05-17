@@ -1,15 +1,14 @@
 <template>
   <div class="app-wrapper">
     <div class="header">
-      <div>首页</div>
+      <div> </div>
       <el-popover placement="bottom" width="200" trigger="click">
         <div @click="bindOut" style="cursor: pointer;text-align: center;">退出登陆</div>
         <div class="user"  slot="reference">
-          <div class="name">Matthew</div>
-          <img class="head" src="@/images/financial.jpg" alt="">
+          <div class="name">financial</div>
+          <img class="head" src="@/images/financial.jpg" alt="" style="border-radius:50%;width:50px;">
         </div>
       </el-popover>
-
     </div>
     <sidebar class="sidebar-container" />
     <div class="main-container">
@@ -26,7 +25,6 @@ import { Navbar, Sidebar, AppMain } from './components'
 import api from '@/api/api'
 
 export default {
-  name: 'LayoutFinance',
   components: {
     Navbar,
     Sidebar,

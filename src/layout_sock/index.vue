@@ -6,7 +6,7 @@
         <div @click="bindOut" style="cursor: pointer;text-align: center;">退出登陆</div>
         <div class="user"  slot="reference">
           <div class="name">warehouseAdmin</div>
-          <img class="head" src="@/images/head.png" alt="">
+          <img class="head" src="@/images/stock.jpg" alt="" style="border-radius:50%;width:50px;">
         </div>
       </el-popover>
     </div>
@@ -25,7 +25,6 @@ import { Navbar, Sidebar, AppMain } from './components'
 import api from '@/api/api'
 
 export default {
-  // name: 'Layout_sock',
   components: {
     Navbar,
     Sidebar,

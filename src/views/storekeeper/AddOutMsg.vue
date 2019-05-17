@@ -34,7 +34,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogAdd.show = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormAdd()">确 定</el-button>
+        <el-button type="primary" @click="dialogFormAdd('formdong')">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -78,20 +78,30 @@ export default {
     
   },
   methods: {
-    dialogFormAdd () {
-      api.addOutbound({
-        productId: this.form.productId,
-        outboundNum: this.form.outboundNum,
-        outboundTime: this.form.outboundTime,
-        customer: this.form.customer,
-        warehouse: this.form.warehouse,
-        principal: this.form.principal
-      }) 
-        .then(res => {
-          console.log(res)
-          this.dialogAdd.show = false
+    dialogFormAdd(formdong) {
+        this.$refs[formdong].validate((valid) => {
+          if (valid) {
+              api.addOutbound({
+                productId: this.form.productId,
+                outboundNum: this.form.outboundNum,
+                outboundTime: this.form.outboundTime,
+                customer: this.form.customer,
+                warehouse: this.form.warehouse,
+                principal: this.form.principal
+              }) 
+              .then(res => {
+                console.log(res)
+                this.dialogAdd.show = false
+                this.form  = ""
+              })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
         })
-    },
+    }
+
+
 
 
   }

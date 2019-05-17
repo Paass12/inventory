@@ -138,7 +138,8 @@ export default {
             })
           } else if(res.userType === 3){
             this.$router.push({
-              name: 'storekeeper'
+              name: 'storekeeper',
+
             })
           } else if (res.userType === 2) {
             this.$router.push({

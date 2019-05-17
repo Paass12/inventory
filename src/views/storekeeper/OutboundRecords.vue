@@ -31,32 +31,32 @@
                       <span>{{ scope.row.orderId}}</span>
                     </template>
                   </el-table-column> -->
-                  <el-table-column label="出库时间" align="center" width="180">
+                  <el-table-column label="出库时间" align="center" width="220">
                     <template slot-scope="scope">
                       <span>{{ scope.row.outboundTime }}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column label="产品代码" align="center" width="180" v-if="false">
+                  <el-table-column label="产品代码" align="center" width="220" v-if="false">
                     <template slot-scope="scope">
                       <span>{{ scope.row.productId }}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column label="仓库" align="center" width="180">
+                  <el-table-column label="仓库" align="center" width="220">
                     <template slot-scope="scope">
                       <span>{{ scope.row.warehouse }}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column label="填制人" align="center" width="150">
+                  <el-table-column label="填制人" align="center" width="220">
                     <template slot-scope="scope">
                       <span>{{ scope.row.principal }}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column label="备注" align="center" width="110">
+                  <!-- <el-table-column label="备注" align="center" width="110">
                     <template slot-scope="scope">
                       <span>{{ scope.row.intro }}</span>
                     </template>
-                  </el-table-column>
-                  <el-table-column label="操作" align="center" width="150" fixed="right">
+                  </el-table-column> -->
+                  <el-table-column label="操作" align="center" width="" fixed="right">
                     <template slot-scope="scope">
                       <!-- <el-button size="mini" @click="handleEdit(scope.$index, scope.row)" type="primary">编辑</el-button> -->
                       <el-button

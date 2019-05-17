@@ -1,3 +1,4 @@
+// 订单管理
 <template>
   <div class="tac">
     <el-row>
@@ -44,10 +45,10 @@
 <script>
 import api from '@/api/api'
 
-import Order from '@/views/financial/Order.vue'
-import InBound from '@/views/financial/InBound.vue'
-import OutBound from '@/views/financial/OutBound.vue'
-import Sold from '@/views/financial/Sold.vue'
+import Order from '@/views/public/Order.vue'
+import InBound from '@/views/public/InBound.vue'
+import OutBound from '@/views/public/OutBound.vue'
+import Sold from '@/views/public/Sold.vue'
 
 export default {
     data() {

@@ -11,31 +11,55 @@
               <div>
                 <el-form :inline="true">
                   <el-form-item style="float: left" label="查询信息:">
-                    <el-input v-model="keyProduct" placeholder="请输入产品代码......"></el-input>
+                    <el-row>
+                      <el-col><el-input v-model="keyProduct" placeholder="请输入产品代码......"></el-input></el-col>
+                      <!-- <el-col :span="8"><el-button type="primary" @click="searchProductInfo(keyProduct)">搜索</el-button></el-col> -->
+                    </el-row>
                   </el-form-item>
                 </el-form>
               </div>
               <div class="table">
-                <el-table :data="searchProductInfo(keyProduct)" border style="width: 100%">
+                <el-table :data="searchProductInfo (keyProduct)" border style="width: 100%">
                   <el-table-column type="index" label="序号" align="center" width="60"></el-table-column>
-                  <el-table-column label="产品代码" align="center" width="180">
+                  <el-table-column label="产品代码" align="center" width="220">
                     <template slot-scope="scope">
                       <span>{{ scope.row.productId}}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column label="库存量" align="center" width="180">
+                  <el-table-column label="库存量" align="center" width="220">
                     <template slot-scope="scope">
                       <span>{{ scope.row.stock }}</span>
                     </template>
                   </el-table-column>
 
+                  <el-table-column label="产品详情" align="center" width="" fixed="right">
+                    <template slot-scope="scope">
+                      <el-button
+                        size="mini"
+                        @click="hanldeShow(scope.row.productId)"
+                        type="success"
+                      >查看</el-button>
+                    </template>
+                  </el-table-column>
                 </el-table>
               </div>
             </el-col>
           </el-row>
-          <!-- <ShowOutProduct :dialogOutShow="dialogOutShow" :form="form" :productList="productList" :allOutProduct="allOutProduct" @update="getOutboundList"></ShowOutProduct>           -->
+          <div>
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :page-sizes="[1, 3, 5, 8]"
+              :page-size="pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="totalNum">
+            </el-pagination>
+          </div>
+          <ShowOutProduct :dialogOutShow="dialogOutShow" :productInformation="this.productInformation"></ShowOutProduct>          
         </el-main>
         <!-- footer -->
+        
       </el-container>
     </el-container>
   </div>
@@ -64,15 +88,32 @@
 // import AddOutProduct from './AddOutMsg.vue'
 // import EditProduct from './EditInMsg.vue'
 // import ShowOutProduct from './ShowOutMsg.vue'
+import ShowOutProduct from './ShowStockDetail.vue'
 import api from '@/api/api'
+import { isError } from 'util';
 export default {
   name: 'stockList',
   data () {
     return {
+      total:'0',
+      currentPage: 1,//默认显示第一页
+      pageSize:5,//默认每页显示10条
+      totalNum: Number, //总页数
+      needid: '',
+      dialogOutShow: false,
       productInformation: null,
+      name:'',
+      unit:'',
+      scale:'',
+      cost:'',
+      resale:'',
+      maxCount:'',
+      minCount:'',
       dialogVisible: false,
       show: false,
       tableData: null,
+      tableDataNow:null,
+      tableNew:Array,
       dialogEdit: {
         show: false
       },
@@ -94,52 +135,57 @@ export default {
     }
   },
   methods: {
+     handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+        this.pageSize = val;    //动态改变
+        this.tableDataNow = this.tableData.slice((this.currentPage-1)*this.pageSize,this.currentPage*this.pageSize)
+      },
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
+        this.currentPage = val;    //动态改变
+        this.tableDataNow = this.tableData.slice((this.currentPage-1)*this.pageSize,this.currentPage*this.pageSize)
+      },
+    hanldeShow (id) {
+      // console.log(id)
+      this.needid = id
+      api.getStock ({
+        productId: this.needid
+      }).then(res => {
+          console.log(res)
+          console.log(res.stock.product)
+          this.productInformation = res.stock.product
+          console.log(this.productInformation)
+        })
+
+      // console.log(this.needid)
+      this.dialogOutShow.show = true
+    },
     getStockList () {
       api.getStockList().then(res => {
         this.tableData = res.stocks
-        this.productInformation = res.stocks.product        
-        console.log(this.productInformation)
+        this.totalNum=this.tableData.length;
+        this.tableDataNow = this.tableData.slice((this.currentPage-1)*this.pageSize,this.currentPage*this.pageSize)
       })
     },
-    // getOutboundListDetail () {
-    //   api.getOutboundList().then(res => {
-    //     // 传详情进去
-    //     // this.productList = res.outbounds.order.products
-    //     // console.log(this.productList)
-    //   })
-    // },
-
-    // hanldeShow (index, row) {
-    //   // 查看
-    //   this.dialogOutShow.show = true
-    //   this.form = {
-    //     orderId: row.orderId,
-    //     outboundTime: row.outboundTime,
-    //     warehouse: row.warehouse,
-    //     principal: row.principal
-    //   }
-    // },
-
-    // handleDelete (index, row) {
-    // },
 
     searchProductInfo (keyProduct) {
-      return this.tableData.filter(item => {
+      return this.tableDataNow.filter(item => {
         if (String(item.productId).includes(keyProduct)) {
           return item
+          // this.tableNew.add(item)
+          // vue.set(tableNew,'',item)
         }
+        // console.log(this.tableNew)
       })
     }
   },
   created () {
     this.getStockList()
-    // this.getOutboundList()
-    // this.getOutboundListDetail()
-    // this.getAllProducts()
+    // this.tableDataNow = this.tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)
+  },
+  components: {  
+    ShowOutProduct
   }
-//   components: {  
-//     // ShowOutProduct
-//   }
 }
 </script>
 <style scoped>

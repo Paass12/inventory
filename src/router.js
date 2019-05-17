@@ -1,15 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 import Layout from '@/layout'
-import Layout_sock from '@/layout_sock'
+import LayoutSock from '@/layout_sock'
 import Home from './views/home/Home.vue'
 import Login from './views/login/Login.vue'
 import Page404 from './views/page404/Page404.vue'
-import LayoutFinance from '@/layout_finance'
 import About from './views/about/About.vue'
 import Information from './views/information/Information.vue'
 import More from './views/more/More.vue'
+import LogList from './views/public/logList.vue'
+import LoginLogList from './views/public/loginLogList.vue'
+import LayoutFinance from '@/layout_finacy'
 Vue.use(Router)
 
 export const constantRoutes = [{
@@ -17,9 +18,15 @@ export const constantRoutes = [{
   name: 'home',
   component: Home
 },
+
 {
   path: '/login',
   name: 'login',
+  component: Login
+},
+{
+  path: '/storage',
+  name: 'storage',
   component: Login
 },
 
@@ -28,7 +35,7 @@ export const constantRoutes = [{
   name: '404',
   component: Page404
 },
-
+// 系统管理员
 {
   path: '/systemAdmin',
   component: Layout,
@@ -38,41 +45,42 @@ export const constantRoutes = [{
     title: '系统管理',
     icon: 'el-icon-location'
   },
-  children: [{
-    path: 'user',
-    name: 'user',
-    component: () => import('@/views/systemAdmin/User.vue'),
-    meta: {
-      title: '用户管理'
-    }
-  },
-  {
-    path: 'institution',
-    name: 'institution',
-    component: () => import('@/views/systemAdmin/Institution.vue'),
-    meta: {
-      title: '库存管理'
-    }
-  },
-  {
-    path: 'menu',
-    name: 'menu',
-    component: () => import('@/views/systemAdmin/Menu.vue'),
-    meta: {
-      title: '订单管理'
-    }
-  },
-  {
-    path: 'log',
-    name: 'log',
-    component: () => import('@/views/systemAdmin/Log.vue'),
-    meta: {
-      title: '日志管理'
-    }
-  }
-  ]
+  children:
+      [{
+        path: 'user',
+        name: 'user',
+        component: () => import('@/views/systemAdmin/User.vue'),
+        meta: {
+          title: '用户管理'
+        }
+      },
+      {
+        path: 'institution',
+        name: 'institution',
+        component: () => import('@/views/systemAdmin/Institution.vue'),
+        meta: {
+          title: '库存管理'
+        }
+      },
+      {
+        path: 'menu',
+        name: 'menu',
+        component: () => import('@/views/systemAdmin/Menu.vue'),
+        meta: {
+          title: '订单管理'
+        }
+      },
+      {
+        path: 'log',
+        name: 'log',
+        component: () => import('@/views/systemAdmin/Log.vue'),
+        meta: {
+          title: '日志管理'
+        }
+      }
+      ]
 },
-
+// 安全警报
 {
   path: '/Monitor',
   component: Layout,
@@ -102,44 +110,18 @@ export const constantRoutes = [{
   component: More
 },
 {
-  path: '/financial',
-  component: LayoutFinance,
-  children: [{
-    path: '/financial/order',
-    name: 'financial',
-    component: () => import('@/views/financial/Order.vue'),
-    meta: {
-      title: '客户账单',
-      icon: 'el-icon-s-custom'
-    }
-  }]
-},
-{
-  path: '/inventoryReport',
-  component: LayoutFinance,
-  children: [{
-    path: '/inventoryReport/table',
-    name: 'inventoryReport',
-    component: () => import('@/views/financial/InventoryReport.vue'),
-    meta: {
-      title: '库存报表',
-      icon: 'el-icon-house'
-    }
-  }]
-},
-{
   path: '/depository',
-  component: LayoutFinance,
+  component: Layout,
   redirect: '/depository/user',
   name: 'depository',
   meta: {
-    title: '入出管理',
+    title: '入出库管理',
     icon: 'el-icon-house'
   },
   children: [{
     path: 'inBound',
     name: 'inBound',
-    component: () => import('@/views/financial/InBound.vue'),
+    component: () => import('@/views/public/InBound.vue'),
     meta: {
       title: '入库单',
       icon: 'el-icon-house'
@@ -148,7 +130,7 @@ export const constantRoutes = [{
   {
     path: 'outBound',
     name: 'outBound',
-    component: () => import('@/views/financial/OutBound.vue'),
+    component: () => import('@/views/public/OutBound.vue'),
     meta: {
       title: '出库单',
       icon: 'el-icon-house'
@@ -157,21 +139,32 @@ export const constantRoutes = [{
 },
 {
   path: '/sold',
-  component: LayoutFinance,
+  component: Layout,
   children: [{
     path: '/sold/sales',
     name: 'sold',
-    component: () => import('@/views/financial/Sold.vue'),
+    component: () => import('@/views/public/Sold.vue'),
     meta: {
-      title: '销售额',
+      title: '财务报表',
       icon: 'el-icon-coin'
     }
   }]
 },
-// 5-13仓库管理员
+{
+  path: 'logList',
+  name: 'logList',
+  component: LogList
+},
+{
+  path: 'loginLogList',
+  name: 'loginLogList',
+  component: LoginLogList
+},
+
+// 仓库管理员
 {
   path: '/storekeeper',
-  component: Layout_sock,
+  component: LayoutSock,
   redirect: '/storekeeper/inventoryRecords',
   name: 'storekeeper',
   meta: {
@@ -180,7 +173,7 @@ export const constantRoutes = [{
   },
   children: [
     {
-      path: 'inventoryRecords',
+      path: '/storekeeper/inventoryRecords',
       name: 'inventoryRecords',
       component: () => import('@/views/storekeeper/InventoryRecords.vue'),
       meta: {
@@ -188,7 +181,7 @@ export const constantRoutes = [{
       }
     },
     {
-      path: 'OutboundRecords',
+      path: '/storekeeper/OutboundRecords',
       name: 'outboundRecords',
       component: () => import('@/views/storekeeper/OutboundRecords.vue'),
       meta: {
@@ -196,13 +189,50 @@ export const constantRoutes = [{
       }
     },
     {
-      path: 'StockList',
+      path: '/storekeeper/StockList',
       name: 'stockList',
       component: () => import('@/views/storekeeper/StockList.vue'),
       meta: {
         title: '产品信息及库存量'
       }
+    },
+    {
+      path: 'InventoryManagement',
+      name: 'inventoryManagement',
+      component: () => import('@/views/storekeeper/InventoryManagement.vue'),
+      meta: {
+        title: '盘存管理'
+      }
     }
+  ]
+},
+// 财务管理员
+{
+  path: '/financial',
+  component: LayoutFinance,
+  name: 'financial',
+  meta: {
+    title: '财务管理',
+    icon: 'el-icon-location'
+  },
+  children: [{
+    path: '/financial/order',
+    name: 'financial',
+    component: () => import('@/views/financial/Order.vue'),
+    meta: {
+      title: '客户账单',
+      icon: 'el-icon-s-custom'
+    }
+  },
+  {
+    path: '/flist',
+    name: 'flist',
+    component: () => import('@/views/public/Sold.vue'),
+    meta: {
+      title: '财务报表',
+      icon: 'el-icon-coin'
+    }
+  }
   ]
 }
 ]
